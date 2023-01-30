@@ -18,7 +18,6 @@ library(ggplot2)
 ```{r victums, include=FALSE}
 victums <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/v2/fatal-police-shootings-data.csv")
 
-victums
 ```
 
 
@@ -27,8 +26,6 @@ victums_filtered <- victums %>%
   select(-c(id, flee_status, latitude, longitude, location_precision, race_source, agency_ids))
 
 victums_filtered <- victums_filtered[victums_filtered$date <="2022-12-31", ]
-
-victums_filtered
 
 ```
 
