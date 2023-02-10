@@ -1,7 +1,7 @@
 ---
-title: "Crime data"
+title: "West Coast Fatal Police Shootings"
 output: html_document
-date: "2023-01-20"
+date: "2023-02-10"
 ---
 
 ```{r setup, include=FALSE}
@@ -13,29 +13,46 @@ library(stringr)
 library(ggplot2)
 ```
 
+Data used in this project is from the Fatal Force Database(v2) from the Washington Post’s Github. The database includes two .csv files which contains data on fatal police shootings and the agencies in relation to the shootings in the United States. For the purpose of this project, I will be using the data set containing fatal police shootings. 
+
+This project will focus the variables of gender, race, mental health and if police body cameras were present at the crime. 
 
 
 ```{r victums, include=FALSE}
 victums <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/v2/fatal-police-shootings-data.csv")
+
+victums <- victums
+victums[victums == ""] <- "undetermined"
 ```
 
 
+
+```{r}
+count_state <- sort(table(victums$state), decreasing =TRUE)
+count_state
+```
+After uploading and glancing at the data, I saw a couple of blank cells, so I replaced the blank spaces with “undetermined”. Instead of looking at fatal police shootings in America as a whole, I wanted to explore the shootings along the West coast. West coast states include California, Oregon, and Washington State. California is the number one state with the most fatal police shootings, Washington State comes next at number 10 and Oregon at number 24 in the United States. While cleaning out the data, I removed the columns: id, county, city, name, flee_status, latitude, longitude, location_precision, race_source, and agency_ids. I then filtered the data so the new data only shows the West coast states selected with all crime reported till 12-31-2022, this is because the data is continuously being contributed to it everyday. I also specified,  I want the genders to show both male and female. This new data set is named victims_wa.
+
 ```{r, include=FALSE}
+
 victums_wa <- victums %>% 
   select(-c(id, county, city, name, flee_status, latitude, longitude, location_precision, race_source, agency_ids))%>% 
-  filter(state == "WA" & date <="2022-12-31")
-
-victums_wa2 <-victums_wa %>% filter(gender =="male" | gender == "female")
-
-victums_wa2 <- victums_wa2
-victums_wa2[victums_wa2 == ""] <- "undetermined"
+  filter((state == "WA"| state=="CA" | state=="OR" ) & (gender =="male" | gender == "female") & date <="2022-12-31")
 
 ```
 
 
 ```{r,}
-#partial tables 
-wa_b<- ftable(body_camera ~ race + gender  , data=victums_wa2)
+#how many individual males and females in the data
+count_gender <- sort(table(victums_wa$gender))
+
+prop.table(count_gender)
+```
+This first table shows the proportions for male and females for all of the victims_wa dataset. It shows that females make 4.32% of the victims versus males making up 95.68% of the fatal shooting victims. 
+
+```{r, include=FALSE}
+#partial tables for body cam
+wa_b<- ftable(body_camera ~ race + gender  , data=victums_wa)
 wa_b
 ```
 
@@ -44,13 +61,21 @@ wa_b
 prop.table(wa_b)
 ```
 
-```{r}
-wa_m<- ftable(was_mental_illness_related ~ race + gender  , data=victums_wa2)
+This proportions table is showing the estimated proportions of crimes related to race, gender, and if there was a police body camera at the crime. 
+
+```{r, include=FALSE}
+#partial tables for mental illness
+wa_m<- ftable(was_mental_illness_related ~ race + gender  , data=victums_wa)
 wa_m
 ```
+
+
 ```{r}
+#estimated proportions for mental illness
 prop.table(wa_m)
 ```
+
+This proportions table is showing the estimated proportions of crimes related to race, gender, and the victim's mental health. 
 
 ```{r, include=FALSE, eval=FALSE}
 summary(victums_filtered2$age)

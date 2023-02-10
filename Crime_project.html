@@ -10,9 +10,9 @@
 
 
 
-<meta name="date" content="2023-01-20" />
+<meta name="date" content="2023-02-10" />
 
-<title>Crime data</title>
+<title>West Coast Fatal Police Shootings</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,76 +349,95 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Crime data</h1>
-<h4 class="date">2023-01-20</h4>
+<h1 class="title toc-ignore">West Coast Fatal Police Shootings</h1>
+<h4 class="date">2023-02-10</h4>
 
 </div>
 
 
-<pre class="r"><code>#partial tables 
-wa_b&lt;- ftable(body_camera ~ race + gender  , data=victums_wa2)
-wa_b</code></pre>
-<pre><code>##                     body_camera False True
-## race         gender                       
-## A            female                 0    0
-##              male                  12    1
-## B            female                 1    0
-##              male                  24    4
-## H            female                 0    0
-##              male                  25    3
-## N            female                 2    0
-##              male                   4    1
-## undetermined female                 0    0
-##              male                  48    4
-## W            female                 3    0
-##              male                  76   12</code></pre>
+<p>Data used in this project is from the Fatal Force Database(v2) from
+the Washington Post’s Github. The database includes two .csv files which
+contains data on fatal police shootings and the agencies in relation to
+the shootings in the United States. For the purpose of this project, I
+will be using the data set containing fatal police shootings.</p>
+<p>This project will focus the variables of gender, race, mental health
+and if police body cameras were present at the crime.</p>
+<pre class="r"><code>count_state &lt;- sort(table(victums$state), decreasing =TRUE)
+count_state</code></pre>
+<pre><code>## 
+##   CA   TX   FL   AZ   GA   CO   OH   NC   OK   WA   TN   MO   NM   PA   IL   LA 
+## 1172  745  516  368  311  297  233  231  227  224  221  213  173  168  164  160 
+##   AL   IN   NY   VA   KY   MI   NV   OR   SC   WI   AR   MD   MS   UT   NJ   MN 
+##  153  150  149  146  145  139  136  133  129  126  114  111  107   97   92   88 
+##   KS   WV   ID   MA   AK   MT   IA   NE   HI   ME   SD   WY   DC   CT   NH   DE 
+##   79   78   66   55   54   51   50   40   39   34   29   28   24   23   23   18 
+##   ND   VT   RI 
+##   18   13    6</code></pre>
+<p>After uploading and glancing at the data, I saw a couple of blank
+cells, so I replaced the blank spaces with “undetermined”. Instead of
+looking at fatal police shootings in America as a whole, I wanted to
+explore the shootings along the West coast. West coast states include
+California, Oregon, and Washington State. California is the number one
+state with the most fatal police shootings, Washington State comes next
+at number 10 and Oregon at number 24 in the United States. While
+cleaning out the data, I removed the columns: id, county, city, name,
+flee_status, latitude, longitude, location_precision, race_source, and
+agency_ids. I then filtered the data so the new data only shows the West
+coast states selected with all crime reported till 12-31-2022, this is
+because the data is continuously being contributed to it everyday. I
+also specified, I want the genders to show both male and female. This
+new data set is named victims_wa.</p>
+<pre class="r"><code>#how many individual males and females in the data
+count_gender &lt;- sort(table(victums_wa$gender))
+
+prop.table(count_gender)</code></pre>
+<pre><code>## 
+##     female       male 
+## 0.04324684 0.95675316</code></pre>
+<p>This first table shows the proportions for male and females for all
+of the victims_wa dataset. It shows that females make 4.32% of the
+victims versus males making up 95.68% of the fatal shooting victims.</p>
 <pre class="r"><code>#estimated proportions for body cam
 prop.table(wa_b)</code></pre>
 <pre><code>##                     body_camera       False        True
 ## race         gender                                    
-## A            female             0.000000000 0.000000000
-##              male               0.054545455 0.004545455
-## B            female             0.004545455 0.000000000
-##              male               0.109090909 0.018181818
-## H            female             0.000000000 0.000000000
-##              male               0.113636364 0.013636364
-## N            female             0.009090909 0.000000000
-##              male               0.018181818 0.004545455
-## undetermined female             0.000000000 0.000000000
-##              male               0.218181818 0.018181818
-## W            female             0.013636364 0.000000000
-##              male               0.345454545 0.054545455</code></pre>
-<pre class="r"><code>wa_m&lt;- ftable(was_mental_illness_related ~ race + gender  , data=victums_wa2)
-wa_m</code></pre>
-<pre><code>##                     was_mental_illness_related False True
-## race         gender                                      
-## A            female                                0    0
-##              male                                 10    3
-## B            female                                0    1
-##              male                                 23    5
-## H            female                                0    0
-##              male                                 24    4
-## N            female                                1    1
-##              male                                  3    2
-## undetermined female                                0    0
-##              male                                 39   13
-## W            female                                2    1
-##              male                                 52   36</code></pre>
-<pre class="r"><code>prop.table(wa_m)</code></pre>
+## A            female             0.001996008 0.000665336
+##              male               0.027278776 0.005322688
+## B            female             0.005988024 0.000665336
+##              male               0.101796407 0.030605456
+## H            female             0.006653360 0.003992016
+##              male               0.254158350 0.053892216
+## N            female             0.001330672 0.000000000
+##              male               0.006653360 0.000665336
+## O            female             0.000665336 0.000000000
+##              male               0.003326680 0.001330672
+## undetermined female             0.001996008 0.001330672
+##              male               0.151696607 0.028609448
+## W            female             0.016633400 0.001330672
+##              male               0.253493014 0.037924152</code></pre>
+<p>This proportions table is showing the estimated proportions of crimes
+related to race, gender, and if there was a police body camera at the
+crime.</p>
+<pre class="r"><code>#estimated proportions for mental illness
+prop.table(wa_m)</code></pre>
 <pre><code>##                     was_mental_illness_related       False        True
 ## race         gender                                                   
-## A            female                            0.000000000 0.000000000
-##              male                              0.045454545 0.013636364
-## B            female                            0.000000000 0.004545455
-##              male                              0.104545455 0.022727273
-## H            female                            0.000000000 0.000000000
-##              male                              0.109090909 0.018181818
-## N            female                            0.004545455 0.004545455
-##              male                              0.013636364 0.009090909
-## undetermined female                            0.000000000 0.000000000
-##              male                              0.177272727 0.059090909
-## W            female                            0.009090909 0.004545455
-##              male                              0.236363636 0.163636364</code></pre>
+## A            female                            0.000665336 0.001996008
+##              male                              0.025282768 0.007318696
+## B            female                            0.004657352 0.001996008
+##              male                              0.107784431 0.024617432
+## H            female                            0.007318696 0.003326680
+##              male                              0.261477046 0.046573520
+## N            female                            0.000665336 0.000665336
+##              male                              0.005322688 0.001996008
+## O            female                            0.000665336 0.000000000
+##              male                              0.003326680 0.001330672
+## undetermined female                            0.001996008 0.001330672
+##              male                              0.150365935 0.029940120
+## W            female                            0.009980040 0.007984032
+##              male                              0.197604790 0.093812375</code></pre>
+<p>This proportions table is showing the estimated proportions of crimes
+related to race, gender, and the victim’s mental health.</p>
 
 
 
