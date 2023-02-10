@@ -17,23 +17,52 @@ library(ggplot2)
 
 ```{r victums, include=FALSE}
 victums <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/v2/fatal-police-shootings-data.csv")
+```
+
+
+```{r, include=FALSE}
+victums_wa <- victums %>% 
+  select(-c(id, county, city, name, flee_status, latitude, longitude, location_precision, race_source, agency_ids))%>% 
+  filter(state == "WA" & date <="2022-12-31")
+
+victums_wa2 <-victums_wa %>% filter(gender =="male" | gender == "female")
+
+victums_wa2 <- victums_wa2
+victums_wa2[victums_wa2 == ""] <- "undetermined"
 
 ```
 
+
+```{r,}
+#partial tables 
+wa_b<- ftable(body_camera ~ race + gender  , data=victums_wa2)
+wa_b
+```
+
+```{r,}
+#estimated proportions for body cam
+prop.table(wa_b)
+```
 
 ```{r}
-victums_filtered <- victums %>% 
-  select(-c(id, flee_status, latitude, longitude, location_precision, race_source, agency_ids))
-
-victums_filtered <- victums_filtered[victums_filtered$date <="2022-12-31", ]
-
+wa_m<- ftable(was_mental_illness_related ~ race + gender  , data=victums_wa2)
+wa_m
 ```
-
-
-
 ```{r}
-count_inspect <- sort(table(victums_filtered$state))
-
-count_inspect
+prop.table(wa_m)
 ```
 
+```{r, include=FALSE, eval=FALSE}
+summary(victums_filtered2$age)
+
+v <- victums_filtered2 %>%
+  ggplot( aes(date, gender, color=race)) +
+  geom_point() +
+  theme_bw()
+
+ggplotly(v)
+#average age is 37.22
+
+#count_inspect <- sort(table(victums_filtered$state))
+#count_inspect
+```

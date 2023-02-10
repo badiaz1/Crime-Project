@@ -355,22 +355,70 @@ display: none;
 </div>
 
 
-<pre class="r"><code>victums_filtered &lt;- victums %&gt;% 
-  select(-c(id, flee_status, latitude, longitude, location_precision, race_source, agency_ids))
-
-victums_filtered &lt;- victums_filtered[victums_filtered$date &lt;=&quot;2022-12-31&quot;, ]</code></pre>
-<pre class="r"><code>count_inspect &lt;- sort(table(victums_filtered$state))
-
-count_inspect</code></pre>
-<pre><code>## 
-##   RI   VT   DE   ND   NH   CT   DC   SD   WY   ME   HI   NE   IA   MT   AK   MA 
-##    6   13   18   18   22   23   24   28   28   34   39   40   50   51   54   54 
-##   ID   KS   WV   MN   NJ   UT   MS   MD   AR   WI   SC   OR   NV   MI   KY   VA 
-##   65   77   77   88   91   95  106  111  113  124  129  132  135  136  144  145 
-##   NY   IN   AL   LA   IL   PA   NM   MO   TN   WA   OK   NC   OH   CO   GA   AZ 
-##  148  149  150  160  164  166  172  210  220  223  225  229  232  296  306  365 
-##   FL   TX   CA 
-##  510  737 1155</code></pre>
+<pre class="r"><code>#partial tables 
+wa_b&lt;- ftable(body_camera ~ race + gender  , data=victums_wa2)
+wa_b</code></pre>
+<pre><code>##                     body_camera False True
+## race         gender                       
+## A            female                 0    0
+##              male                  12    1
+## B            female                 1    0
+##              male                  24    4
+## H            female                 0    0
+##              male                  25    3
+## N            female                 2    0
+##              male                   4    1
+## undetermined female                 0    0
+##              male                  48    4
+## W            female                 3    0
+##              male                  76   12</code></pre>
+<pre class="r"><code>#estimated proportions for body cam
+prop.table(wa_b)</code></pre>
+<pre><code>##                     body_camera       False        True
+## race         gender                                    
+## A            female             0.000000000 0.000000000
+##              male               0.054545455 0.004545455
+## B            female             0.004545455 0.000000000
+##              male               0.109090909 0.018181818
+## H            female             0.000000000 0.000000000
+##              male               0.113636364 0.013636364
+## N            female             0.009090909 0.000000000
+##              male               0.018181818 0.004545455
+## undetermined female             0.000000000 0.000000000
+##              male               0.218181818 0.018181818
+## W            female             0.013636364 0.000000000
+##              male               0.345454545 0.054545455</code></pre>
+<pre class="r"><code>wa_m&lt;- ftable(was_mental_illness_related ~ race + gender  , data=victums_wa2)
+wa_m</code></pre>
+<pre><code>##                     was_mental_illness_related False True
+## race         gender                                      
+## A            female                                0    0
+##              male                                 10    3
+## B            female                                0    1
+##              male                                 23    5
+## H            female                                0    0
+##              male                                 24    4
+## N            female                                1    1
+##              male                                  3    2
+## undetermined female                                0    0
+##              male                                 39   13
+## W            female                                2    1
+##              male                                 52   36</code></pre>
+<pre class="r"><code>prop.table(wa_m)</code></pre>
+<pre><code>##                     was_mental_illness_related       False        True
+## race         gender                                                   
+## A            female                            0.000000000 0.000000000
+##              male                              0.045454545 0.013636364
+## B            female                            0.000000000 0.004545455
+##              male                              0.104545455 0.022727273
+## H            female                            0.000000000 0.000000000
+##              male                              0.109090909 0.018181818
+## N            female                            0.004545455 0.004545455
+##              male                              0.013636364 0.009090909
+## undetermined female                            0.000000000 0.000000000
+##              male                              0.177272727 0.059090909
+## W            female                            0.009090909 0.004545455
+##              male                              0.236363636 0.163636364</code></pre>
 
 
 
