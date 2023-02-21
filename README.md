@@ -16,6 +16,8 @@ Findings I have found, Hispnisc and Whites make up the majority of victims on th
 
 ## Conclusion:
 
+There seems to be a bigger population in hispaics and whites on the West coast. There are also a lot more fatal shootings on the West coast with California as number 1. There is no relations in crimes and the body cams but may be an issue in general for scociety when it comes to fatal police shootings. Now regading mental illness, I believe there could be a slight correlations because the data also includes mental distress under mental illness. I belive if the two were distinguished we can get a better understanding how police interactions may affect the victims. 
+
 Some thoughts on how to improve the project and some suggestions on the data. 
 
 Improvements: I want to come back and revisit this project and would like to add a data visualization on a specific state or specific gender or race. I would like to do a deep dive on one state alone. Also would like to take a look at how the victims' ages are related to the crimes. What age is more susceptible to these crimes? 
