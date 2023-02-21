@@ -43,12 +43,21 @@ victums_wa <- victums %>%
 
 
 ```{r,}
-#how many individual males and females in the data
+#proportion individual males and females in the data
 count_gender <- sort(table(victums_wa$gender))
 
 prop.table(count_gender)
 ```
-This first table shows the proportions for male and females for all of the victims_wa dataset. It shows that females make 4.32% of the victims versus males making up 95.68% of the fatal shooting victims. 
+This first contingency table shows the proportions for male and females for all of the victims_wa dataset. It shows that females make 4.32% of the victims versus males making up 95.68% of the fatal shooting victims. This is not surprising considering that the majority of incarcerations are among men; therefore, showing men have more, and in this case, more aggressive encounters with law enforcement. 
+```{r}
+#proportion of each race in the data
+count_race <- sort(table(victums_wa$race))
+prop.table(count_race)
+
+```
+
+The second contingency table shows the proportions of all the races included in the data. It can be seen that victims are majority White, 30.93%, and Hispainic, 31.87%. This makes up about 63% off the victims in the in the West coast
+
 
 ```{r, include=FALSE}
 #partial tables for body cam
@@ -61,7 +70,8 @@ wa_b
 prop.table(wa_b)
 ```
 
-This proportions table is showing the estimated proportions of crimes related to race, gender, and if there was a police body camera at the crime. 
+This third contingency table is showing the estimated proportions of crimes related to race, gender, and if there was a police body camera at the time of the crime. Analyzing the table, it can be seen that for the majority of the crimes there has not been a body cam present at the time of the crime. As seen in earlier, the majority of the victims demographic of the west coast related to these crimes of white and Hispanic. Based on the table, the proportion of there NOT being a body cam at the crime is 25.3% and 25.4% for white and Hispanic respectively. This is slightly over 50% of the crimes committed on the West coast. 
+
 
 ```{r, include=FALSE}
 #partial tables for mental illness
@@ -75,7 +85,11 @@ wa_m
 prop.table(wa_m)
 ```
 
-This proportions table is showing the estimated proportions of crimes related to race, gender, and the victim's mental health. 
+This last contingency table shows the estimated proportions of victims' race,  gender and if they had related to mental illness. Just at the glance it can be seen that not many of the victims did not have a documented mental illness or mental distress during the crime. However, it is important to note that white males seem to be more likely to have or experience mental illness or distress. White males make up about 9.38% of this population. In addition, the Hispanics show about 4% of the mental illness related. However, they make up the biggest proportion of the population that do not have any mental illness relations. 
+
+
+
+ Based on my findings we can conclude that the majority of the West coast population is Hispanic and White. This is based on how high their percentages were based on victims. Based on the proportions of the body cams being present at the crime is extremely high in not being present. This continues to be an issue because there is not much evidence of the incidents to confirm the state of the victim before and during the crime. My interpretation of the mental illness related crimes show the victims being in the right mental state, although body cams would help this case a lot more, the percentages have me question why Hispanics percentage of having mental illness or mental distress at the time of the crime. Are Hispanics in less distress when these crimes happen because they are used to encounters with the law? Generally speaking, minorities are more likely to have encounters with the law compared to white people. Although whites help make up the majority of the victims of the West coast, when it comes to encounters with law enforcements are they more likely to become more distressed?
 
 ```{r, include=FALSE, eval=FALSE}
 summary(victums_filtered2$age)
